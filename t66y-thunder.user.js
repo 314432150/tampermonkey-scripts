@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         草榴社区一键迅雷下载助手(4.0 迅雷专属硬核直达版)
+// @name         草榴社区一键迅雷下载助手(2.0 迅雷专属硬核直达版)
 // @namespace    http://tampermonkey.net/
 // @version      2.0
 // @description  左手大拇指优化：使用迅雷私有协议组装暗号，100%跳过系统应用选择弹窗
