@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         草榴社区一键迅雷下载助手(GitHub反拦截纯净版)
 // @namespace    http://tampermonkey.net/
-// @version      2.0.4
+// @version      2.0.5
 // @description  左手大拇指优化：完美绕过rmdown广告拦截机制，零延迟直达标准磁力下载
 // @author       Gemini
 // @match        *://*.t66y.com/htm_mob/*/*/*.html*
@@ -16,12 +16,113 @@
   "use strict";
 
   const currentUrl = window.location.href;
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
+  const copyText = async (text) => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (err) {
+      console.warn("油猴助手：Clipboard API 复制失败，尝试降级复制", err);
+    }
+
+    const input = document.createElement("textarea");
+    input.value = text;
+    input.style.position = "fixed";
+    input.style.left = "-9999px";
+    input.style.top = "-9999px";
+    document.body.appendChild(input);
+    input.focus();
+    input.select();
+
+    let ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch (err) {
+      console.warn("油猴助手：降级复制失败", err);
+    }
+
+    input.remove();
+    return ok;
+  };
+
+  const showAndroidMagnetBar = (magnetUrl) => {
+    const oldBar = document.getElementById("tm-xunlei-magnet-bar");
+    if (oldBar) oldBar.remove();
+
+    if (!document.getElementById("tm-xunlei-magnet-style")) {
+      const style = document.createElement("style");
+      style.id = "tm-xunlei-magnet-style";
+      style.textContent = `
+        #tm-xunlei-magnet-bar {
+          position: fixed;
+          left: 12px;
+          right: 12px;
+          bottom: 24px;
+          z-index: 999999;
+          display: grid;
+          grid-template-columns: 1fr 96px 72px;
+          gap: 8px;
+          align-items: center;
+          padding: 10px;
+          background: rgba(20, 20, 24, 0.96);
+          color: #fff;
+          border: 1px solid rgba(255,255,255,0.16);
+          border-radius: 8px;
+          box-shadow: 0 8px 28px rgba(0,0,0,0.38);
+          font-size: 15px;
+        }
+        #tm-xunlei-magnet-bar .tm-xunlei-title {
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        #tm-xunlei-magnet-bar button {
+          height: 38px;
+          border: 0;
+          border-radius: 6px;
+          background: #1677ff;
+          color: #fff;
+          font-size: 15px;
+        }
+        #tm-xunlei-magnet-bar button[data-action="copy"] {
+          background: #444b55;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    const bar = document.createElement("div");
+    bar.id = "tm-xunlei-magnet-bar";
+    bar.innerHTML = `
+      <div class="tm-xunlei-title">已获取磁力链接</div>
+      <button type="button" data-action="open">打开迅雷</button>
+      <button type="button" data-action="copy">复制</button>
+    `;
+
+    bar.addEventListener("click", async (e) => {
+      const action = e.target && e.target.dataset && e.target.dataset.action;
+      if (action === "open") {
+        window.location.href = magnetUrl;
+      }
+      if (action === "copy") {
+        const ok = await copyText(magnetUrl);
+        e.target.textContent = ok ? "已复制" : "复制失败";
+      }
+    });
+
+    document.body.appendChild(bar);
+    copyText(magnetUrl);
+  };
+
   const openMagnet = (magnetUrl) => {
     if (!magnetUrl) return;
 
-    const isAndroid = /Android/i.test(navigator.userAgent);
     if (isAndroid && /^magnet:/i.test(magnetUrl)) {
-      window.location.href = `thunder://${btoa(`AA${magnetUrl}ZZ`)}`;
+      showAndroidMagnetBar(magnetUrl);
       return;
     }
 
