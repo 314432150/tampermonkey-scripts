@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         草榴社区一键迅雷下载助手(GitHub反拦截纯净版)
 // @namespace    http://tampermonkey.net/
-// @version      2.0.3
+// @version      2.0.4
 // @description  左手大拇指优化：完美绕过rmdown广告拦截机制，零延迟直达标准磁力下载
 // @author       Gemini
 // @match        *://*.t66y.com/htm_mob/*/*/*.html*
@@ -18,15 +18,12 @@
   "use strict";
 
   const currentUrl = window.location.href;
-  const XUNLEI_ANDROID_PACKAGE = "com.xunlei.downloadprovider";
-
   const openMagnet = (magnetUrl) => {
     if (!magnetUrl) return;
 
     const isAndroid = /Android/i.test(navigator.userAgent);
     if (isAndroid && /^magnet:/i.test(magnetUrl)) {
-      const magnetBody = magnetUrl.replace(/^magnet:/i, "");
-      window.location.href = `intent://${magnetBody}#Intent;scheme=magnet;package=${XUNLEI_ANDROID_PACKAGE};end`;
+      window.location.href = `thunder://${btoa(`AA${magnetUrl}ZZ`)}`;
       return;
     }
 
