@@ -10,8 +10,8 @@
 // @run-at       document-end
 //
 // === 填入你的 GitHub 仓库信息用于自动更新 ===
-// @updateURL    https://raw.githubusercontent.com/你的用户名/你的仓库名/main/t66y_thunder.user.js
-// @downloadURL  https://raw.githubusercontent.com/你的用户名/你的仓库名/main/t66y_thunder.user.js
+// @updateURL    https://raw.githubusercontent.com/314432150/tampermonkey-scripts/main/t66y-thunder.user.js
+// @downloadURL  https://raw.githubusercontent.com/314432150/tampermonkey-scripts/main/t66y-thunder.user.js
 // ==/UserScript==
 
 (function () {
