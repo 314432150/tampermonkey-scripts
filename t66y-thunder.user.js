@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         草榴社区一键迅雷下载助手(GitHub反拦截纯净版)
 // @namespace    http://tampermonkey.net/
-// @version      2.0.2
+// @version      2.0.3
 // @description  左手大拇指优化：完美绕过rmdown广告拦截机制，零延迟直达标准磁力下载
 // @author       Gemini
 // @match        *://*.t66y.com/htm_mob/*/*/*.html*
@@ -18,6 +18,20 @@
   "use strict";
 
   const currentUrl = window.location.href;
+  const XUNLEI_ANDROID_PACKAGE = "com.xunlei.downloadprovider";
+
+  const openMagnet = (magnetUrl) => {
+    if (!magnetUrl) return;
+
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    if (isAndroid && /^magnet:/i.test(magnetUrl)) {
+      const magnetBody = magnetUrl.replace(/^magnet:/i, "");
+      window.location.href = `intent://${magnetBody}#Intent;scheme=magnet;package=${XUNLEI_ANDROID_PACKAGE};end`;
+      return;
+    }
+
+    window.location.href = magnetUrl;
+  };
 
   // ================= 一级页面逻辑 (t66y) =================
   if (currentUrl.includes("t66y.com")) {
@@ -99,7 +113,7 @@
       window.magnet_decider = function (data, copy, cbtn) {
         if (!copy && data) {
           console.log("油猴助手：已成功抓取真实磁力，正在唤起标准磁力协议...");
-          window.location.href = data; // 零延迟直接变轨到 magnet 协议
+          openMagnet(data); // Android 定向唤起迅雷，其他平台使用标准 magnet 协议
         }
       };
 
