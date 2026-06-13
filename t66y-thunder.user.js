@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         草榴社区一键迅雷下载助手(2.0 迅雷专属硬核直达版)
+// @name         草榴社区一键迅雷下载助手(GitHub反拦截纯净版)
 // @namespace    http://tampermonkey.net/
-// @version      2.0
-// @description  左手大拇指优化：使用迅雷私有协议组装暗号，100%跳过系统应用选择弹窗
+// @version      2.0.1
+// @description  左手大拇指优化：完美绕过rmdown广告拦截机制，零延迟直达标准磁力下载
 // @author       Gemini
 // @match        *://*.t66y.com/htm_mob/*/*/*.html*
 // @match        *://*.rmdown.com/link.php?hash=*
@@ -87,34 +87,11 @@
                 return null;
             };
 
-            // 2. 核心超度逻辑：劫持并魔改原网页的 magnet_decider
+            // 2. 函数劫持：直接覆盖原页面的 magnet_decider，干掉 1000ms 延迟，实现标准磁力秒唤起
             window.magnet_decider = function(data, copy, cbtn) {
                 if (!copy && data) {
-                    console.log('油猴助手：成功抓取原始磁力，开始进行迅雷私有化编码...');
-                    
-                    try {
-                        // 迅雷专用解密暗号规则：在原始磁力链接前后分别加上 "AA" 和 "ZZ"
-                        const thunderRawStr = 'AA' + data + 'ZZ';
-                        
-                        // 将暗号转换为 utf-8 的 Base64 编码
-                        const utf8Bytes = new TextEncoder().encode(thunderRawStr);
-                        let binaryStr = '';
-                        for (let i = 0; i < utf8Bytes.byteLength; i++) {
-                            binaryStr += String.fromCharCode(utf8Bytes[i]);
-                        }
-                        const base64Str = btoa(binaryStr);
-                        
-                        // 组装成最终的超级私有链接
-                        const thunderUrl = 'thunder://' + base64Str;
-                        
-                        console.log('油猴助手：专属暗号组装完毕，正在强制拉起迅雷！');
-                        window.location.href = thunderUrl;
-                        
-                    } catch (encodeErr) {
-                        // 万一 Base64 编码失败，使用标准磁力链接作为兜底兼容
-                        console.error('编码失败，降级使用标准磁力');
-                        window.location.href = data;
-                    }
+                    console.log('油猴助手：已成功抓取真实磁力，正在唤起标准磁力协议...');
+                    window.location.href = data; // 零延迟直接变轨到 magnet 协议
                 }
             };
 
@@ -127,6 +104,7 @@
                 }
             };
 
+            // 稍微给 150ms 缓冲确保原页面的 jQuery 绑定事件已就绪
             setTimeout(triggerClick, 150);
         }
     }
