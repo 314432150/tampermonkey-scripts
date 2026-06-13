@@ -8,8 +8,6 @@
 // @match        *://*.rmdown.com/link.php?hash=*
 // @grant        none
 // @run-at       document-end
-//
-// === GitHub 自动更新地址 ===
 // @updateURL    https://raw.githubusercontent.com/314432150/tampermonkey-scripts/main/t66y-thunder.user.js
 // @downloadURL  https://raw.githubusercontent.com/314432150/tampermonkey-scripts/main/t66y-thunder.user.js
 // ==/UserScript==
