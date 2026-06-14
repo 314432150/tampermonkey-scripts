@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         草榴社区一键迅雷下载助手(GitHub反拦截纯净版)
+// @name         草榴社区一键迅雷下载助手
 // @namespace    http://tampermonkey.net/
 // @version      2.0.6
 // @description  左手大拇指优化：完美绕过rmdown广告拦截机制，零延迟直达标准磁力下载
