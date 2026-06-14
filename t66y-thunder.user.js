@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         草榴社区一键迅雷下载助手
 // @namespace    http://tampermonkey.net/
-// @version      2.0.6
+// @version      2.0.7
 // @description  左手大拇指优化：完美绕过rmdown广告拦截机制，零延迟直达标准磁力下载
 // @author       Fishme
 // @match        *://*.t66y.com/htm_mob/*/*/*.html*
