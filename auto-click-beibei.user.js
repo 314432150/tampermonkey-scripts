@@ -4,7 +4,7 @@
 // @version      1.3
 // @description  使用正则完全修复域名匹配问题，支持从 GitHub 自动更新
 // @author       YourName
-// @include      /^https?:\/\/.*beibei.*\/dashboard/
+// @include      /^https?:\/\/.*beibei.*\/dashboard*
 // @updateURL    https://raw.githubusercontent.com/314432150/tampermonkey-scripts/main/auto-click-beibei.user.js
 // @downloadURL  https://raw.githubusercontent.com/314432150/tampermonkey-scripts/main/auto-click-beibei.user.js
 // @grant        none

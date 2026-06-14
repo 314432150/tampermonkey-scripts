@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2.0.6
 // @description  左手大拇指优化：完美绕过rmdown广告拦截机制，零延迟直达标准磁力下载
-// @author       Gemini
+// @author       Fishme
 // @match        *://*.t66y.com/htm_mob/*/*/*.html*
 // @match        *://*.rmdown.com/link.php?hash=*
 // @grant        none
