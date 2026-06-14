@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         自动点击“我已认真阅读”按钮（支持自动更新版）
+// @name         自动点击“我已认真阅读”按钮
 // @namespace    http://tampermonkey.net/
 // @version      1.3
 // @description  使用正则完全修复域名匹配问题，支持从 GitHub 自动更新
